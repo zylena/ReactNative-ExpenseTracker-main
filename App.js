@@ -11,6 +11,8 @@ import {
   AllExpensesScreen,
   ManageExpenseScreen,
   RecentExpensesScreen,
+  MyProfileScreen,
+  HelpCenterScreen,
 } from './screens';
 import { GlobalStyles } from './constants/styles';
 
@@ -21,18 +23,25 @@ function BottomTabComponent() {
   return (
     <BottomTab.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: GlobalStyles.colors.darkGreen },
+        headerStyle: { backgroundColor: GlobalStyles.colors.tobago },
+        headerTitleStyle: {
+          fontSize: 22,
+          fontWeight: 'bold',
+        },
         headerTintColor: 'white',
         headerTitleAlign: 'center',
         headerShadowVisible: false,
         tabBarStyle: {
-          backgroundColor: GlobalStyles.colors.darkGreen,
+          backgroundColor: GlobalStyles.colors.tobago,
           borderTopWidth: 0,
+          height: 60,
+          paddingTop: 8,
+          paddingBottom: 10,
         },
-        tabBarActiveTintColor: GlobalStyles.colors.lightGreen,
-        tabBarInactiveTintColor: 'white',
+        tabBarActiveTintColor: '#d88c8c',
+        tabBarInactiveTintColor: '#ffffff',
       }}
-      sceneContainerStyle={{ backgroundColor: GlobalStyles.colors.darkGray }}
+      sceneContainerStyle={{ backgroundColor: GlobalStyles.colors.vanillaIce }}
     >
       <BottomTab.Screen
         name="RecentExpenses"
@@ -40,8 +49,16 @@ function BottomTabComponent() {
         options={{
           title: 'Recent Expenses',
           tabBarLabel: 'Recent',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="time-outline" size={size} color={color} />
+          tabBarLabelStyle: {
+            fontSize: 12,
+          },
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'time' : 'time-outline'}
+              size={focused ? 26 : 20}
+              color={color}
+            />
+
           ),
         }}
       />
@@ -51,8 +68,33 @@ function BottomTabComponent() {
         options={{
           title: 'All Expenses',
           tabBarLabel: 'All',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cash-outline" size={size} color={color} />
+          tabBarLabelStyle: {
+            fontSize: 12,
+          },
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'cash' : 'cash-outline'}
+              size={focused ? 26 : 20}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="MyProfile"
+        component={MyProfileScreen}
+        options={{
+          title: 'My Profile',
+          tabBarLabel: 'My Profile',
+          tabBarLabelStyle: {
+            fontSize: 12,
+          },
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'person' : 'person-outline'}
+              size={focused ? 26 : 20}
+              color={color}
+            />
           ),
         }}
       />
@@ -68,11 +110,11 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
-              headerStyle: { backgroundColor: GlobalStyles.colors.darkGreen },
+              headerStyle: { backgroundColor: GlobalStyles.colors.tobago },
               headerTintColor: 'white',
               headerTitleAlign: 'center',
               headerShadowVisible: false,
-              contentStyle: { backgroundColor: GlobalStyles.colors.darkGray },
+              contentStyle: { backgroundColor: GlobalStyles.colors.vanillaIce },
             }}
           >
             <Stack.Screen
@@ -89,7 +131,11 @@ export default function App() {
                 animation: 'slide_from_bottom',
               }}
             />
+            <Stack.Screen name="HelpCenter"
+              component={HelpCenterScreen}
+              options={{ title: 'Help Center' }} />
           </Stack.Navigator>
+
         </NavigationContainer>
       </Provider>
     </>

@@ -1,9 +1,9 @@
 export const GlobalStyles = {
   colors: {
-    lightGreen: '#4ce188',
-    darkGreen: '#05474c',
-    darkGray: '#2b2c25',
-    primaryButton: '#c27305',
+    fantasy: '#F7F3ED',
+    tobago: '#422B23',
+    vanillaIce: '#EFD8D6',
+    primaryButton: '#ce6466',
     secondaryButton: '#ff0000',
   },
 };

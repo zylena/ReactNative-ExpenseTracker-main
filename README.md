@@ -43,6 +43,7 @@ npm install
 npx expo start
 ```
 
+
 2. Use the Expo app to run the app on your device, or use an emulator to run it on your computer.
 
 3. Use the app to add, update, or delete expenses, and view your list of expenses.
