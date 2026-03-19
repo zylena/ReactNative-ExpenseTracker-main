@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BACKEND_URL = 'https://react-native-ab6d2-default-rtdb.firebaseio.com';
+// origin link : const BACKEND_URL = 'https://react-native-ab6d2-default-rtdb.firebaseio.com';
+const BACKEND_URL = 'https://expensestracker-70e39-default-rtdb.asia-southeast1.firebasedatabase.app';
 
 export async function storeExpenseToFirebase(expense) {
   const response = await axios.post(BACKEND_URL + '/expenses.json', expense);
@@ -31,5 +32,5 @@ export async function updateExpenseInFirebase(id, expense) {
 }
 
 export async function deleteExpenseFromFirebase(id) {
-  await axios.delete(BACKEND_URL + `/expense/${id}.json`);
+  await axios.delete(BACKEND_URL + `/expenses/${id}.json`);
 }
