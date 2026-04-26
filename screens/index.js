@@ -3,4 +3,11 @@ import RecentExpensesScreen from './RecentExpensesScreen';
 import ManageExpenseScreen from './ManageExpenseScreen';
 import MyProfileScreen from './MyProfileScreen';
 import HelpCenterScreen from './HelpCenterScreen';
-export { AllExpensesScreen, RecentExpensesScreen, ManageExpenseScreen,MyProfileScreen,HelpCenterScreen };
+import MyAccountScreen from './MyAccountScreen';
+export { 
+    AllExpensesScreen, 
+    RecentExpensesScreen, 
+    ManageExpenseScreen,
+    MyProfileScreen,
+    HelpCenterScreen,
+    MyAccountScreen, };

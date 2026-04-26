@@ -3,7 +3,9 @@ import { View, Text, Pressable } from 'react-native';
 import { getFormattedDate } from '../../utils/date';
 
 export default function ExpenseItem({ item }) {
-  const { id, title, price, date } = item;
+  if(!item) return null;
+
+  const { id, title, price, date, type } = item;
 
   const navigation = useNavigation();
 

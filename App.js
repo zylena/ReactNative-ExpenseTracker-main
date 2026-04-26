@@ -13,6 +13,7 @@ import {
   RecentExpensesScreen,
   MyProfileScreen,
   HelpCenterScreen,
+  MyAccountScreen,
 } from './screens';
 import { GlobalStyles } from './constants/styles';
 
@@ -133,7 +134,13 @@ export default function App() {
             />
             <Stack.Screen name="HelpCenter"
               component={HelpCenterScreen}
-              options={{ title: 'Help Center' }} />
+              options={{ title: 'Help Center' }} 
+            />
+            <Stack.Screen
+              name="MyAccount"
+              component={MyAccountScreen}
+              options={{ title: 'My Account' }}
+            />
           </Stack.Navigator>
 
         </NavigationContainer>

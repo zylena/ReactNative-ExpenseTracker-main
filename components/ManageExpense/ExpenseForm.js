@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Alert } from 'react-native';
+import { Text, View, Alert, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { addToExpenses, updateInExpenses } from '../../store/expenses-slice';
@@ -20,7 +20,9 @@ export default function ExpenseForm({ id, defaultValues }) {
   const [inputValues, setInputValues] = useState({
     title: defaultValues ? defaultValues.title : '',
     price: defaultValues ? defaultValues.price.toString() : '',
+    type: defaultValues ? defaultValues.type : 'Food',
     date: defaultValues ? new Date(defaultValues.date) : new Date(),
+    
   });
 
   const dispatch = useDispatch();
@@ -53,6 +55,7 @@ export default function ExpenseForm({ id, defaultValues }) {
       title: inputValues.title,
       price: +inputValues.price,
       date: inputValues.date.toISOString(),
+      type: inputValues.type,
     };
 
     setIsLoading(true);
@@ -111,7 +114,26 @@ export default function ExpenseForm({ id, defaultValues }) {
             keyboardType: 'number-pad',
           }}
         />
+        <View className="my-3">
+      <Text className="text-white font-semibold mb-2">Type</Text>
 
+          <View className="flex-row justify-between">
+            {['Food', 'Transport', 'Shopping', 'Bills'].map((t) => (
+              <Pressable
+                key={t}
+                onPress={() => inputValuesHandler('type', t)}
+                style={{
+                  padding: 8,
+                  borderRadius: 10,
+                  backgroundColor:
+                    inputValues.type === t ? '#7d71ff' : '#ccc',
+                }}
+              >
+                <Text style={{ color: 'white' }}>{t}</Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
         {/* Date Picker */}
         <DateInput
           onChange={inputValuesHandler.bind(this, 'date')}
