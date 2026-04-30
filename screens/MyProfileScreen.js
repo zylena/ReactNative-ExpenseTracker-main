@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
     View,
     Text,
@@ -6,29 +6,38 @@ import {
     Image,
     TouchableOpacity,
     SafeAreaView,
-    TextInput,
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function MyProfileScreen({ navigation }) {
     const [name, setName] = useState('User Name');
     const [image, setImage] = useState(null);
 
-    // load saved data
-    useEffect(() => {
-        async function loadUser() {
-            const data = await AsyncStorage.getItem('userData');
-            if(data){
-                const parsed = JSON.parse(data);
-                setName(parsed.name || 'User Name');
-            }
-                }
-        loadUser();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            async function loadUser() {
+                const data = await AsyncStorage.getItem('userData');
+                const savedImage = await AsyncStorage.getItem('profileImage');
 
-    // pick image
+                if (data) {
+                    const parsed = JSON.parse(data);
+                    setName(parsed.name || 'User Name');
+                } else {
+                    setName('User Name');
+                }
+
+                if (savedImage) {
+                    setImage(savedImage);
+                }
+            }
+
+            loadUser();
+        }, [])
+    );
+
     async function pickImage() {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -47,9 +56,8 @@ export default function MyProfileScreen({ navigation }) {
     return (
         <SafeAreaView style={styles.screen}>
             <View style={styles.placeholder} />
-            <View style={styles.container}>
 
-                {/* Avatar Section */}
+            <View style={styles.container}>
                 <View style={styles.avatarSection}>
                     <TouchableOpacity
                         style={styles.sideIconButton}
@@ -66,17 +74,16 @@ export default function MyProfileScreen({ navigation }) {
                         )}
                     </View>
 
-                    <Text style={styles.name}>{name}</Text>
                     <View style={styles.placeholder} />
                 </View>
 
-                <View style={styles.placeholder} />
+                <Text style={styles.name}>{name}</Text>
 
-                {/* Menu */}
                 <View style={styles.menuList}>
-                    <TouchableOpacity 
-                    style={styles.menuCard}
-                    onPress = {() => navigation.navigate('MyAccount')}>
+                    <TouchableOpacity
+                        style={styles.menuCard}
+                        onPress={() => navigation.navigate('MyAccount')}
+                    >
                         <View style={styles.menuIconCircle}>
                             <Ionicons name="person" size={14} color="#7d71ff" />
                         </View>
@@ -107,34 +114,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
         paddingTop: 18,
     },
-    backButton: {
-        width: 32,
-        height: 32,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 8,
-    },
-    titleRow: {
-        marginBottom: 24,
-    },
     avatarSection: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 22,
-    },
-
-    cameraButton: {
-        position: 'absolute',
-        left: 0,
-        top: '50%',
-        marginTop: -21,
-        width: 42,
-        height: 42,
-        borderRadius: 21,
-        backgroundColor: '#e8edf5',
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginBottom: 12,
     },
     sideIconButton: {
         width: 42,
@@ -154,7 +138,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#dbe2ec',
     },
-
     avatar: {
         width: 106,
         height: 106,
@@ -196,12 +179,4 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: '#6d7f99',
     },
-    input: {
-    textAlign: 'center',
-    fontSize: 18,
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
-    marginBottom: 20,
-    padding: 6,
-},
 });
