@@ -1,5 +1,4 @@
 import { View, Text, Pressable } from 'react-native';
-import { useState } from 'react';
 
 export default function ExpenseSummary({
   period,
@@ -8,6 +7,7 @@ export default function ExpenseSummary({
   selectedYear,
   showFilter,
   onFilterPress,
+  currency,
 }) {
   const totalExpense = expenses.reduce(
     (total, expense) => total + expense.price,
@@ -15,26 +15,26 @@ export default function ExpenseSummary({
   );
 
   const monthNames = [
-    'Jan','Feb','Mar','Apr','May','Jun',
-    'Jul','Aug','Sep','Oct','Nov','Dec'
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ];
+
+  const displayCurrency = currency || '₹';
 
   return (
     <View
       className="flex-row justify-between items-center px-4 py-2 my-6 bg-white rounded-lg"
       style={{ elevation: 4 }}
     >
-      {/* LEFT TEXT */}
       <Text className="font-bold">
         {period
           ? `Total expense in last ${period} days`
           : `Total expense (${monthNames[selectedMonth]} ${selectedYear})`}
       </Text>
 
-      {/* RIGHT SIDE */}
       <View className="flex-row items-center">
         <Text className="font-bold text-lg mr-3">
-          ₹{totalExpense.toFixed(2)}
+          {displayCurrency}{totalExpense.toFixed(2)}
         </Text>
 
         {showFilter && (

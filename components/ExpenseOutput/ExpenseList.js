@@ -1,7 +1,7 @@
 import { View, Text, FlatList } from 'react-native';
 import ExpenseItem from './ExpenseItem';
 
-export default function ExpenseList({ expenses, period }) {
+export default function ExpenseList({ expenses, period, currency }) {
   if (expenses.length === 0) {
     return (
       <View className="flex-1 items-center justify-center">
@@ -16,7 +16,9 @@ export default function ExpenseList({ expenses, period }) {
     <FlatList
       data={expenses}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <ExpenseItem item={item} />}
+      renderItem={({ item }) => (
+        <ExpenseItem item={item} currency={currency} />
+      )}
       showsVerticalScrollIndicator={false}
     />
   );

@@ -73,7 +73,7 @@ export default function HelpCenterScreen({ navigation }) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#f3dede',
+        backgroundColor: '#ffffff',
   },
   container: {
     padding: 20,

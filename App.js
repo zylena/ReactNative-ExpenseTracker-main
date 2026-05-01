@@ -16,6 +16,7 @@ import {
   MyProfileScreen,
   HelpCenterScreen,
   MyAccountScreen,
+  CurrencySettingScreen,
 } from './screens';
 import { GlobalStyles } from './constants/styles';
 
@@ -44,7 +45,7 @@ function BottomTabComponent() {
               paddingTop: 8,
               paddingBottom: 10,
             },
-            tabBarActiveTintColor: "#d88c8c",
+            tabBarActiveTintColor: "#B9B2FF",
             tabBarInactiveTintColor: "#ffffff",
           }}
           sceneContainerStyle={{
@@ -148,6 +149,12 @@ export default function App() {
               component={MyAccountScreen}
               options={{ title: 'My Account' }}
             />
+
+             <Stack.Screen
+                name="CurrencySetting"
+                component={CurrencySettingScreen}
+                options={{ title: 'Currency Setting' }}
+              />
           </Stack.Navigator>
 
         </NavigationContainer>

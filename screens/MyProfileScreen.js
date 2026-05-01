@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function MyProfileScreen({ navigation }) {
@@ -31,6 +30,8 @@ export default function MyProfileScreen({ navigation }) {
 
                 if (savedImage) {
                     setImage(savedImage);
+                } else {
+                    setImage(null);
                 }
             }
 
@@ -38,34 +39,12 @@ export default function MyProfileScreen({ navigation }) {
         }, [])
     );
 
-    async function pickImage() {
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [1, 1],
-            quality: 0.5,
-        });
-
-        if (!result.canceled) {
-            const uri = result.assets[0].uri;
-            setImage(uri);
-            await AsyncStorage.setItem('profileImage', uri);
-        }
-    }
-
     return (
         <SafeAreaView style={styles.screen}>
             <View style={styles.placeholder} />
 
             <View style={styles.container}>
                 <View style={styles.avatarSection}>
-                    <TouchableOpacity
-                        style={styles.sideIconButton}
-                        onPress={pickImage}
-                    >
-                        <Ionicons name="camera" size={18} color="#c7cfdd" />
-                    </TouchableOpacity>
-
                     <View style={styles.avatarOuter}>
                         {image ? (
                             <Image source={{ uri: image }} style={styles.avatar} />
@@ -73,8 +52,6 @@ export default function MyProfileScreen({ navigation }) {
                             <Ionicons name="person" size={50} color="#999" />
                         )}
                     </View>
-
-                    <View style={styles.placeholder} />
                 </View>
 
                 <Text style={styles.name}>{name}</Text>
@@ -87,8 +64,26 @@ export default function MyProfileScreen({ navigation }) {
                         <View style={styles.menuIconCircle}>
                             <Ionicons name="person" size={14} color="#7d71ff" />
                         </View>
-                        <Text style={styles.menuText}>My Account</Text>
+                        <View>
+                            <Text style={styles.menuText}>My Account</Text>
+                            <Text style={styles.menuSubText}>Edit profile information</Text>
+                        </View>
                     </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.menuCard}
+                            onPress={() => navigation.navigate('CurrencySetting')}
+                            >
+                            <View style={styles.menuIconCircle}>
+                                <Ionicons name="cash-outline" size={14} color="#7d71ff" />
+                            </View>
+
+                            <View>
+                                <Text style={styles.menuText}>Currency Setting</Text>
+                                <Text style={styles.menuSubText}>Change expense currency symbol</Text>
+                            </View>
+                            </TouchableOpacity>
+
 
                     <TouchableOpacity
                         style={styles.menuCard}
@@ -97,8 +92,15 @@ export default function MyProfileScreen({ navigation }) {
                         <View style={styles.menuIconCircle}>
                             <Ionicons name="help-circle" size={14} color="#7d71ff" />
                         </View>
-                        <Text style={styles.menuText}>Help Center</Text>
+                        <View>
+                            <Text style={styles.menuText}>Help Center</Text>
+                            <Text style={styles.menuSubText}>Get help and support</Text>
+                        </View>
                     </TouchableOpacity>
+
+
+
+
                 </View>
             </View>
         </SafeAreaView>
@@ -108,35 +110,28 @@ export default function MyProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
+        backgroundColor: '#ffffff',
     },
     container: {
         flex: 1,
         paddingHorizontal: 24,
         paddingTop: 18,
+        backgroundColor: '#ffffff',
     },
     avatarSection: {
-        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: 12,
-    },
-    sideIconButton: {
-        width: 42,
-        height: 42,
-        borderRadius: 21,
-        backgroundColor: '#e8edf5',
         justifyContent: 'center',
-        alignItems: 'center',
+        marginBottom: 12,
     },
     avatarOuter: {
         width: 120,
         height: 120,
         borderRadius: 60,
         borderWidth: 4,
-        borderColor: '#6f6cff',
+        borderColor: '#7d71ff',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#dbe2ec',
+        backgroundColor: '#e8edf5',
     },
     avatar: {
         width: 106,
@@ -150,7 +145,7 @@ const styles = StyleSheet.create({
     name: {
         textAlign: 'center',
         fontSize: 22,
-        fontWeight: '600',
+        fontWeight: '700',
         color: '#556b89',
         marginBottom: 28,
     },
@@ -158,17 +153,17 @@ const styles = StyleSheet.create({
         gap: 16,
     },
     menuCard: {
-        height: 72,
+        minHeight: 76,
         borderRadius: 18,
-        backgroundColor: '#e1e6f1',
+        backgroundColor: '#e8edf5',
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 18,
     },
     menuIconCircle: {
-        width: 28,
-        height: 28,
-        borderRadius: 14,
+        width: 32,
+        height: 32,
+        borderRadius: 16,
         backgroundColor: '#edf1f8',
         justifyContent: 'center',
         alignItems: 'center',
@@ -176,7 +171,12 @@ const styles = StyleSheet.create({
     },
     menuText: {
         fontSize: 15,
-        fontWeight: '500',
-        color: '#6d7f99',
+        fontWeight: '700',
+        color: '#556b89',
+    },
+    menuSubText: {
+        fontSize: 12,
+        color: '#8c99ad',
+        marginTop: 3,
     },
 });

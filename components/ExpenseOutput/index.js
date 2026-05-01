@@ -18,6 +18,7 @@ export default function ExpenseOutput({
   selectedYear,
   setSelectedMonth,
   setSelectedYear,
+  currency,
 }) {
   const navigation = useNavigation();
 
@@ -56,7 +57,7 @@ export default function ExpenseOutput({
     });
   }
 
-  let content = <ExpenseList expenses={expenses} period={period} />;
+  let content = <ExpenseList expenses={expenses} period={period} currency={currency} />;
 
   if (error && !isLoading) {
     content = <Error message={error} />;
@@ -89,6 +90,7 @@ export default function ExpenseOutput({
       <ExpenseSummary
         expenses={expenses}
         period={period}
+        currency={currency}
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
         showFilter={!period}
