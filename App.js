@@ -49,7 +49,7 @@ function BottomTabComponent() {
             tabBarInactiveTintColor: "#ffffff",
           }}
           sceneContainerStyle={{
-            backgroundColor: GlobalStyles.colors.vanillaIce,
+            backgroundColor:"#ffffff",
           }}
         >
           <BottomTab.Screen
