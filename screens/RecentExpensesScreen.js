@@ -4,6 +4,7 @@ import { fetchExpensesFromFirebase } from '../utils/http';
 import { useDispatch } from 'react-redux';
 import { setExpenses } from '../store/expenses-slice';
 import useCurrency from '../components/UI/currency';
+import { TouchableOpacity } from "react-native";
 
 export default function RecentExpensesScreen() {
   const [isLoading, setIsLoading] = useState(false);

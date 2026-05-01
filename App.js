@@ -2,12 +2,13 @@ import { View } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
-import { BannerSlider } from './components';
 
 import store from './store';
+import BannerSlider from './components/UI/BannerSlider';
 
 import {
   AllExpensesScreen,
@@ -18,99 +19,185 @@ import {
   MyAccountScreen,
   CurrencySettingScreen,
 } from './screens';
+
 import { GlobalStyles } from './constants/styles';
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-function BottomTabComponent() {
+
+// =======================
+// BOTTOM TABS (NO HEADER)
+// =======================
+function BottomTabs() {
+  return (
+    <BottomTab.Navigator
+      screenOptions={{
+        headerShown: false, // ✅ IMPORTANT (Drawer handles header)
+
+        tabBarStyle: {
+          backgroundColor: GlobalStyles.colors.tobago,
+          height: 60,
+          paddingTop: 8,
+          paddingBottom: 10,
+        },
+
+        tabBarActiveTintColor: "#B9B2FF",
+        tabBarInactiveTintColor: "#ffffff",
+      }}
+      sceneContainerStyle={{
+        backgroundColor: GlobalStyles.colors.vanillaIce,
+      }}
+    >
+      <BottomTab.Screen
+        name="RecentExpenses"
+        component={RecentExpensesScreen}
+        options={{
+          title: "Recent",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "time" : "time-outline"}
+              size={focused ? 26 : 20}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <BottomTab.Screen
+        name="AllExpenses"
+        component={AllExpensesScreen}
+        options={{
+          title: "All",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "cash" : "cash-outline"}
+              size={focused ? 26 : 20}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <BottomTab.Screen
+        name="MyProfile"
+        component={MyProfileScreen}
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              size={focused ? 26 : 20}
+              color={color}
+            />
+          ),
+        }}
+      />
+    </BottomTab.Navigator>
+  );
+}
+
+
+// =======================
+// WRAPPER (Tabs + Banner)
+// =======================
+function HomeWithBanner() {
   return (
     <View style={{ flex: 1 }}>
-      {/* Screens (take full space above banner) */}
       <View style={{ flex: 1 }}>
-        <BottomTab.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: GlobalStyles.colors.tobago },
-            headerTitleStyle: {
-              fontSize: 22,
-              fontWeight: "bold",
-            },
-            headerTintColor: "white",
-            headerTitleAlign: "center",
-            headerShadowVisible: false,
-            tabBarStyle: {
-              backgroundColor: GlobalStyles.colors.tobago,
-              borderTopWidth: 0,
-              height: 60,
-              paddingTop: 8,
-              paddingBottom: 10,
-            },
-            tabBarActiveTintColor: "#B9B2FF",
-            tabBarInactiveTintColor: "#ffffff",
-          }}
-          sceneContainerStyle={{
-            backgroundColor: GlobalStyles.colors.vanillaIce,
-          }}
-        >
-          <BottomTab.Screen
-            name="RecentExpenses"
-            component={RecentExpensesScreen}
-            options={{
-              title: "Recent Expenses",
-              tabBarLabel: "Recent",
-              tabBarLabelStyle: { fontSize: 12 },
-              tabBarIcon: ({ color, focused }) => (
-                <Ionicons
-                  name={focused ? "time" : "time-outline"}
-                  size={focused ? 26 : 20}
-                  color={color}
-                />
-              ),
-            }}
-          />
-
-          <BottomTab.Screen
-            name="AllExpenses"
-            component={AllExpensesScreen}
-            options={{
-              title: "All Expenses",
-              tabBarLabel: "All",
-              tabBarLabelStyle: { fontSize: 12 },
-              tabBarIcon: ({ color, focused }) => (
-                <Ionicons
-                  name={focused ? "cash" : "cash-outline"}
-                  size={focused ? 26 : 20}
-                  color={color}
-                />
-              ),
-            }}
-          />
-
-          <BottomTab.Screen
-            name="MyProfile"
-            component={MyProfileScreen}
-            options={{
-              title: "My Profile",
-              tabBarLabel: "My Profile",
-              tabBarLabelStyle: { fontSize: 12 },
-              tabBarIcon: ({ color, focused }) => (
-                <Ionicons
-                  name={focused ? "person" : "person-outline"}
-                  size={focused ? 26 : 20}
-                  color={color}
-                />
-              ),
-            }}
-          />
-        </BottomTab.Navigator>
+        <BottomTabs />
       </View>
 
-      {/* Advertisement Banner (auto-changing images) */}
+      {/* Banner outside navigator */}
       <BannerSlider />
     </View>
   );
 }
 
+
+// =======================
+// DRAWER (MAIN HEADER)
+// =======================
+function DrawerNavigator() {
+  return (
+    <Drawer.Navigator
+      screenOptions={({ navigation, route }) => ({
+        headerStyle: { backgroundColor: GlobalStyles.colors.tobago },
+        headerTintColor: "white",
+        headerTitleAlign: "center",
+
+        // ✅ MENU BUTTON (works everywhere)
+        headerLeft: () => (
+          <Ionicons
+            name="menu"
+            size={24}
+            color="white"
+            style={{ marginLeft: 15 }}
+            onPress={() => navigation.toggleDrawer()}
+          />
+        ),
+
+        drawerStyle: {
+          backgroundColor: GlobalStyles.colors.vanillaIce,
+        },
+
+        drawerActiveTintColor: "#B9B2FF",
+        drawerInactiveTintColor: "#333",
+      })}
+    >
+      {/* MAIN ENTRY */}
+      <Drawer.Screen
+        name="RecentExpenses"
+        component={HomeWithBanner}
+        options={{
+          title: "Recent Expenses",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="time-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="HelpCenter"
+        component={HelpCenterScreen}
+        options={{
+          title: "Help Center",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="help-circle-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="MyAccount"
+        component={MyAccountScreen}
+        options={{
+          title: "My Account",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="settings-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="CurrencySetting"
+        component={CurrencySettingScreen}
+        options={{
+          title: "Currency Setting",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="logo-usd" size={size} color={color} />
+          ),
+        }}
+      />
+    </Drawer.Navigator>
+  );
+}
+
+
+// =======================
+// MAIN APP
+// =======================
 export default function App() {
   return (
     <>
@@ -127,8 +214,8 @@ export default function App() {
             }}
           >
             <Stack.Screen
-              name="BottomTab"
-              component={BottomTabComponent}
+              name="DrawerRoot"
+              component={DrawerNavigator}
               options={{ headerShown: false }}
             />
 
@@ -138,25 +225,10 @@ export default function App() {
               options={{
                 presentation: 'modal',
                 animation: 'slide_from_bottom',
+                title: "Manage Expense",
               }}
             />
-            <Stack.Screen name="HelpCenter"
-              component={HelpCenterScreen}
-              options={{ title: 'Help Center' }} 
-            />
-            <Stack.Screen
-              name="MyAccount"
-              component={MyAccountScreen}
-              options={{ title: 'My Account' }}
-            />
-
-             <Stack.Screen
-                name="CurrencySetting"
-                component={CurrencySettingScreen}
-                options={{ title: 'Currency Setting' }}
-              />
           </Stack.Navigator>
-
         </NavigationContainer>
       </Provider>
     </>

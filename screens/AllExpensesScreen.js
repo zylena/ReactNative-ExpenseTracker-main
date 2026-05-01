@@ -1,6 +1,7 @@
 import { ExpenseOutput } from '../components';
 import { useState } from 'react';
 import useCurrency from '../components/UI/currency';
+import { TouchableOpacity } from "react-native";
 
   export default function AllExpensesScreen() {
   const today = new Date();
