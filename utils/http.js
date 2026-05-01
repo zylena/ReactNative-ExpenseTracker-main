@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// origin link : const BACKEND_URL = 'https://react-native-ab6d2-default-rtdb.firebaseio.com';
 const BACKEND_URL = 'https://expensestracker-70e39-default-rtdb.asia-southeast1.firebasedatabase.app';
 
 export async function storeExpenseToFirebase(expense) {
@@ -33,4 +32,22 @@ export async function updateExpenseInFirebase(id, expense) {
 
 export async function deleteExpenseFromFirebase(id) {
   await axios.delete(BACKEND_URL + `/expenses/${id}.json`);
+}
+
+export async function fetchFoodPicFromAPIHub() {
+  try {
+    const response = await fetch("https://foodish-api.com/api");
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch image");
+    }
+
+    const data = await response.json();
+
+    return data.image;
+  } catch (error) {
+    console.log("API error:", error);
+
+    return null;
+  }
 }

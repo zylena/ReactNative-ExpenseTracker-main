@@ -1,12 +1,15 @@
+import { View, Image, Text } from 'react-native';
 import { useEffect, useState } from 'react';
 import { ExpenseOutput } from '../components';
 import { fetchExpensesFromFirebase } from '../utils/http';
+import { fetchFoodPicFromAPIHub } from '../utils/http'; 
 import { useDispatch } from 'react-redux';
 import { setExpenses } from '../store/expenses-slice';
 
 export default function RecentExpensesScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -15,12 +18,12 @@ export default function RecentExpensesScreen() {
       try {
         const expenses = await fetchExpensesFromFirebase();
         dispatch(setExpenses(expenses));
+
       } catch (err) {
         setError("Couldn't fetch the expenses");
       }
       setIsLoading(false);
     }
-
     setGlobalStore();
   }, []);
 

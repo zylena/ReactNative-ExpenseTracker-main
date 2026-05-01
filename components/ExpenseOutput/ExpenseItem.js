@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { View, Text, Pressable } from 'react-native';
 import { getFormattedDate } from '../../utils/date';
 
+
 export default function ExpenseItem({ item }) {
   if(!item) return null;
 

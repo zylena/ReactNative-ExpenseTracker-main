@@ -1,9 +1,11 @@
+import { View } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
+import { BannerSlider } from './components';
 
 import store from './store';
 
@@ -22,84 +24,89 @@ const BottomTab = createBottomTabNavigator();
 
 function BottomTabComponent() {
   return (
-    <BottomTab.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: GlobalStyles.colors.tobago },
-        headerTitleStyle: {
-          fontSize: 22,
-          fontWeight: 'bold',
-        },
-        headerTintColor: 'white',
-        headerTitleAlign: 'center',
-        headerShadowVisible: false,
-        tabBarStyle: {
-          backgroundColor: GlobalStyles.colors.tobago,
-          borderTopWidth: 0,
-          height: 60,
-          paddingTop: 8,
-          paddingBottom: 10,
-        },
-        tabBarActiveTintColor: '#d88c8c',
-        tabBarInactiveTintColor: '#ffffff',
-      }}
-      sceneContainerStyle={{ backgroundColor: GlobalStyles.colors.vanillaIce }}
-    >
-      <BottomTab.Screen
-        name="RecentExpenses"
-        component={RecentExpensesScreen}
-        options={{
-          title: 'Recent Expenses',
-          tabBarLabel: 'Recent',
-          tabBarLabelStyle: {
-            fontSize: 12,
-          },
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'time' : 'time-outline'}
-              size={focused ? 26 : 20}
-              color={color}
-            />
+    <View style={{ flex: 1 }}>
+      {/* Screens (take full space above banner) */}
+      <View style={{ flex: 1 }}>
+        <BottomTab.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: GlobalStyles.colors.tobago },
+            headerTitleStyle: {
+              fontSize: 22,
+              fontWeight: "bold",
+            },
+            headerTintColor: "white",
+            headerTitleAlign: "center",
+            headerShadowVisible: false,
+            tabBarStyle: {
+              backgroundColor: GlobalStyles.colors.tobago,
+              borderTopWidth: 0,
+              height: 60,
+              paddingTop: 8,
+              paddingBottom: 10,
+            },
+            tabBarActiveTintColor: "#d88c8c",
+            tabBarInactiveTintColor: "#ffffff",
+          }}
+          sceneContainerStyle={{
+            backgroundColor: GlobalStyles.colors.vanillaIce,
+          }}
+        >
+          <BottomTab.Screen
+            name="RecentExpenses"
+            component={RecentExpensesScreen}
+            options={{
+              title: "Recent Expenses",
+              tabBarLabel: "Recent",
+              tabBarLabelStyle: { fontSize: 12 },
+              tabBarIcon: ({ color, focused }) => (
+                <Ionicons
+                  name={focused ? "time" : "time-outline"}
+                  size={focused ? 26 : 20}
+                  color={color}
+                />
+              ),
+            }}
+          />
 
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="AllExpenses"
-        component={AllExpensesScreen}
-        options={{
-          title: 'All Expenses',
-          tabBarLabel: 'All',
-          tabBarLabelStyle: {
-            fontSize: 12,
-          },
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'cash' : 'cash-outline'}
-              size={focused ? 26 : 20}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="MyProfile"
-        component={MyProfileScreen}
-        options={{
-          title: 'My Profile',
-          tabBarLabel: 'My Profile',
-          tabBarLabelStyle: {
-            fontSize: 12,
-          },
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'person' : 'person-outline'}
-              size={focused ? 26 : 20}
-              color={color}
-            />
-          ),
-        }}
-      />
-    </BottomTab.Navigator>
+          <BottomTab.Screen
+            name="AllExpenses"
+            component={AllExpensesScreen}
+            options={{
+              title: "All Expenses",
+              tabBarLabel: "All",
+              tabBarLabelStyle: { fontSize: 12 },
+              tabBarIcon: ({ color, focused }) => (
+                <Ionicons
+                  name={focused ? "cash" : "cash-outline"}
+                  size={focused ? 26 : 20}
+                  color={color}
+                />
+              ),
+            }}
+          />
+
+          <BottomTab.Screen
+            name="MyProfile"
+            component={MyProfileScreen}
+            options={{
+              title: "My Profile",
+              tabBarLabel: "My Profile",
+              tabBarLabelStyle: { fontSize: 12 },
+              tabBarIcon: ({ color, focused }) => (
+                <Ionicons
+                  name={focused ? "person" : "person-outline"}
+                  size={focused ? 26 : 20}
+                  color={color}
+                />
+              ),
+            }}
+          />
+        </BottomTab.Navigator>
+      </View>
+
+      {/* Advertisement Banner (auto-changing images) */}
+      <BannerSlider />
+    </View>
   );
 }
 

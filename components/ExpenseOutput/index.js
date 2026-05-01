@@ -21,9 +21,7 @@ export default function ExpenseOutput({
 }) {
   const navigation = useNavigation();
 
-  // =======================
   // MODAL STATE
-  // =======================
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [tempMonth, setTempMonth] = useState(selectedMonth);
   const [tempYear, setTempYear] = useState(selectedYear);
@@ -33,12 +31,10 @@ export default function ExpenseOutput({
     setTempYear(selectedYear);
   }, [selectedMonth, selectedYear]);
 
-  // =======================
   // GET EXPENSES
-  // =======================
   let expenses = useSelector((state) => state.expenses.expenses);
 
-  // 🔹 Recent screen (7 days)
+  // Recent screen (7 days)
   if (period) {
     const periodDaysAgo = new Date(
       new Date().getTime() - period * 86400000
@@ -49,7 +45,7 @@ export default function ExpenseOutput({
     );
   }
 
-  // 🔹 All expenses (month/year)
+  // All expenses (month/year)
   else if (selectedMonth !== undefined && selectedYear !== undefined) {
     expenses = expenses.filter((expense) => {
       const date = new Date(expense.date);
@@ -193,9 +189,7 @@ export default function ExpenseOutput({
               >
                 <Text style={{ color: 'white' }}>Apply</Text>
               </Pressable>
-
             </View>
-
           </View>
         </View>
       </Modal>
