@@ -1,0 +1,293 @@
+> Task :react-native-gradle-plugin:compileKotlin UP-TO-DATE
+> Task :react-native-gradle-plugin:compileJava NO-SOURCE
+> Task :react-native-gradle-plugin:pluginDescriptors UP-TO-DATE
+> Task :react-native-gradle-plugin:processResources UP-TO-DATE
+> Task :react-native-gradle-plugin:classes UP-TO-DATE
+> Task :react-native-gradle-plugin:inspectClassesForKotlinIC UP-TO-DATE
+> Task :react-native-gradle-plugin:jar UP-TO-DATE
+
+> Configure project :expo-application
+WARNING:Software Components will not be created automatically for Maven publishing from Android Gradle Plugin 8.0. To opt-in to the future behavior, set the Gradle property android.disableAutomaticComponentCreation=true in the `gradle.properties` file or use the new publishing DSL.
+
+> Configure project :expo-constants
+WARNING:Software Components will not be created automatically for Maven publishing from Android Gradle Plugin 8.0. To opt-in to the future behavior, set the Gradle property android.disableAutomaticComponentCreation=true in the `gradle.properties` file or use the new publishing DSL.
+
+> Configure project :expo-file-system
+WARNING:Software Components will not be created automatically for Maven publishing from Android Gradle Plugin 8.0. To opt-in to the future behavior, set the Gradle property android.disableAutomaticComponentCreation=true in the `gradle.properties` file or use the new publishing DSL.
+
+> Configure project :expo-font
+WARNING:Software Components will not be created automatically for Maven publishing from Android Gradle Plugin 8.0. To opt-in to the future behavior, set the Gradle property android.disableAutomaticComponentCreation=true in the `gradle.properties` file or use the new publishing DSL.
+
+> Configure project :expo-image-loader
+WARNING:Software Components will not be created automatically for Maven publishing from Android Gradle Plugin 8.0. To opt-in to the future behavior, set the Gradle property android.disableAutomaticComponentCreation=true in the `gradle.properties` file or use the new publishing DSL.
+
+> Configure project :expo-image-picker
+WARNING:Software Components will not be created automatically for Maven publishing from Android Gradle Plugin 8.0. To opt-in to the future behavior, set the Gradle property android.disableAutomaticComponentCreation=true in the `gradle.properties` file or use the new publishing DSL.
+
+> Configure project :expo-keep-awake
+WARNING:Software Components will not be created automatically for Maven publishing from Android Gradle Plugin 8.0. To opt-in to the future behavior, set the Gradle property android.disableAutomaticComponentCreation=true in the `gradle.properties` file or use the new publishing DSL.
+
+> Configure project :expo-modules-core
+WARNING:Software Components will not be created automatically for Maven publishing from Android Gradle Plugin 8.0. To opt-in to the future behavior, set the Gradle property android.disableAutomaticComponentCreation=true in the `gradle.properties` file or use the new publishing DSL.
+
+> Configure project :expo-splash-screen
+WARNING:Software Components will not be created automatically for Maven publishing from Android Gradle Plugin 8.0. To opt-in to the future behavior, set the Gradle property android.disableAutomaticComponentCreation=true in the `gradle.properties` file or use the new publishing DSL.
+
+> Configure project :expo
+
+Using expo modules
+  - [32mexpo-application[0m (5.1.1)
+  - [32mexpo-constants[0m (14.2.1)
+  - [32mexpo-file-system[0m (15.2.2)
+  - [32mexpo-font[0m (11.1.1)
+  - [32mexpo-image-loader[0m (4.1.1)
+  - [32mexpo-image-picker[0m (14.1.1)
+  - [32mexpo-keep-awake[0m (12.0.1)
+  - [32mexpo-modules-core[0m (1.2.7)
+  - [32mexpo-splash-screen[0m (0.18.2)
+
+WARNING:Software Components will not be created automatically for Maven publishing from Android Gradle Plugin 8.0. To opt-in to the future behavior, set the Gradle property android.disableAutomaticComponentCreation=true in the `gradle.properties` file or use the new publishing DSL.
+
+> Configure project :react-native-reanimated
+AAR for react-native-reanimated has been found
+C:\Users\angel\react\ReactNative-ExpenseTracker-main\node_modules\react-native-reanimated\android\react-native-reanimated-71-hermes.aar
+
+The Kotlin Gradle plugin was loaded multiple times in different subprojects, which is not supported and may break the build. 
+This might happen in subprojects that apply the Kotlin plugins with the Gradle 'plugins { ... }' DSL if they specify explicit versions, even if the versions are equal.
+Please add the Kotlin plugin to the common parent project or the root project, then remove the versions in the subprojects.
+If the parent project does not need the plugin, add 'apply false' to the plugin line.
+See: https://docs.gradle.org/current/userguide/plugins.html#sec:subprojects_plugins_dsl
+The Kotlin plugin was loaded in the following projects: ':expo', ':expo-modules-core', ':react-native-gesture-handler', ':react-native-screens'
+
+> Task :app:buildCodegenCLI SKIPPED
+> Task :app:generateCodegenSchemaFromJavaScript SKIPPED
+> Task :app:generateCodegenArtifactsFromSchema SKIPPED
+> Task :app:generatePackageList
+> Task :app:preBuild
+> Task :app:preDebugBuild
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :expo:generateExpoModulesPackageList
+> Task :expo:preBuild
+> Task :expo:preDebugBuild
+> Task :expo-application:preBuild UP-TO-DATE
+> Task :expo-application:preDebugBuild UP-TO-DATE
+> Task :expo-modules-core:preBuild UP-TO-DATE
+> Task :expo-modules-core:preDebugBuild UP-TO-DATE
+> Task :expo-modules-core:compileDebugAidl NO-SOURCE
+> Task :expo-application:compileDebugAidl NO-SOURCE
+> Task :expo-constants:preBuild UP-TO-DATE
+> Task :expo-constants:preDebugBuild UP-TO-DATE
+> Task :expo-constants:compileDebugAidl NO-SOURCE
+> Task :expo-file-system:preBuild UP-TO-DATE
+> Task :expo-file-system:preDebugBuild UP-TO-DATE
+> Task :expo-file-system:compileDebugAidl NO-SOURCE
+> Task :expo-font:preBuild UP-TO-DATE
+> Task :expo-font:preDebugBuild UP-TO-DATE
+> Task :expo-font:compileDebugAidl NO-SOURCE
+> Task :expo-image-loader:preBuild UP-TO-DATE
+> Task :expo-image-loader:preDebugBuild UP-TO-DATE
+> Task :expo-image-loader:compileDebugAidl NO-SOURCE
+> Task :expo-image-picker:preBuild UP-TO-DATE
+> Task :expo-image-picker:preDebugBuild UP-TO-DATE
+> Task :expo-image-picker:compileDebugAidl NO-SOURCE
+> Task :expo-keep-awake:preBuild UP-TO-DATE
+> Task :expo-keep-awake:preDebugBuild UP-TO-DATE
+> Task :expo-keep-awake:compileDebugAidl NO-SOURCE
+> Task :expo-splash-screen:preBuild UP-TO-DATE
+> Task :expo-splash-screen:preDebugBuild UP-TO-DATE
+> Task :expo-splash-screen:compileDebugAidl NO-SOURCE
+> Task :expo:compileDebugAidl NO-SOURCE
+> Task :react-native-async-storage_async-storage:preBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preDebugBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileDebugAidl NO-SOURCE
+> Task :react-native-community_datetimepicker:preBuild UP-TO-DATE
+> Task :react-native-community_datetimepicker:preDebugBuild UP-TO-DATE
+> Task :react-native-community_datetimepicker:compileDebugAidl NO-SOURCE
+> Task :react-native-date-picker:preBuild UP-TO-DATE
+> Task :react-native-date-picker:preDebugBuild UP-TO-DATE
+> Task :react-native-date-picker:compileDebugAidl NO-SOURCE
+> Task :react-native-gesture-handler:preBuild UP-TO-DATE
+> Task :react-native-gesture-handler:preDebugBuild UP-TO-DATE
+> Task :react-native-gesture-handler:compileDebugAidl NO-SOURCE
+> Task :react-native-picker_picker:preBuild UP-TO-DATE
+> Task :react-native-picker_picker:preDebugBuild UP-TO-DATE
+> Task :react-native-picker_picker:compileDebugAidl NO-SOURCE
+> Task :react-native-safe-area-context:preBuild UP-TO-DATE
+> Task :react-native-safe-area-context:preDebugBuild UP-TO-DATE
+> Task :react-native-safe-area-context:compileDebugAidl NO-SOURCE
+> Task :react-native-screens:preBuild UP-TO-DATE
+> Task :react-native-screens:preDebugBuild UP-TO-DATE
+> Task :react-native-screens:compileDebugAidl NO-SOURCE
+> Task :react-native-sqlite-storage:preBuild UP-TO-DATE
+> Task :react-native-sqlite-storage:preDebugBuild UP-TO-DATE
+> Task :react-native-sqlite-storage:compileDebugAidl NO-SOURCE
+> Task :app:compileDebugAidl NO-SOURCE
+> Task :expo:packageDebugRenderscript NO-SOURCE
+> Task :expo-application:packageDebugRenderscript NO-SOURCE
+> Task :expo-constants:packageDebugRenderscript NO-SOURCE
+> Task :expo-file-system:packageDebugRenderscript NO-SOURCE
+> Task :expo-font:packageDebugRenderscript NO-SOURCE
+> Task :expo-image-loader:packageDebugRenderscript NO-SOURCE
+> Task :expo-image-picker:packageDebugRenderscript NO-SOURCE
+> Task :expo-keep-awake:packageDebugRenderscript NO-SOURCE
+> Task :expo-modules-core:packageDebugRenderscript NO-SOURCE
+> Task :expo-splash-screen:packageDebugRenderscript NO-SOURCE
+> Task :react-native-async-storage_async-storage:packageDebugRenderscript NO-SOURCE
+> Task :react-native-community_datetimepicker:packageDebugRenderscript NO-SOURCE
+> Task :react-native-date-picker:packageDebugRenderscript NO-SOURCE
+> Task :react-native-gesture-handler:packageDebugRenderscript NO-SOURCE
+> Task :react-native-picker_picker:packageDebugRenderscript NO-SOURCE
+> Task :react-native-safe-area-context:packageDebugRenderscript NO-SOURCE
+> Task :react-native-screens:packageDebugRenderscript NO-SOURCE
+> Task :react-native-sqlite-storage:packageDebugRenderscript NO-SOURCE
+> Task :app:compileDebugRenderscript NO-SOURCE
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:generateDebugResValues
+> Task :expo:compileDebugRenderscript NO-SOURCE
+> Task :expo:generateDebugResValues UP-TO-DATE
+> Task :expo:generateDebugResources UP-TO-DATE
+> Task :expo:packageDebugResources UP-TO-DATE
+> Task :expo-application:compileDebugRenderscript NO-SOURCE
+> Task :expo-application:generateDebugResValues UP-TO-DATE
+> Task :expo-application:generateDebugResources UP-TO-DATE
+> Task :expo-application:packageDebugResources UP-TO-DATE
+> Task :expo-constants:compileDebugRenderscript NO-SOURCE
+> Task :expo-constants:generateDebugResValues UP-TO-DATE
+> Task :expo-constants:generateDebugResources UP-TO-DATE
+> Task :expo-constants:packageDebugResources UP-TO-DATE
+> Task :expo-file-system:compileDebugRenderscript NO-SOURCE
+> Task :expo-file-system:generateDebugResValues UP-TO-DATE
+> Task :expo-file-system:generateDebugResources UP-TO-DATE
+> Task :expo-file-system:packageDebugResources UP-TO-DATE
+> Task :expo-font:compileDebugRenderscript NO-SOURCE
+> Task :expo-font:generateDebugResValues UP-TO-DATE
+> Task :expo-font:generateDebugResources UP-TO-DATE
+> Task :expo-font:packageDebugResources UP-TO-DATE
+> Task :expo-image-loader:compileDebugRenderscript NO-SOURCE
+> Task :expo-image-loader:generateDebugResValues UP-TO-DATE
+> Task :expo-image-loader:generateDebugResources UP-TO-DATE
+> Task :expo-image-loader:packageDebugResources UP-TO-DATE
+> Task :expo-image-picker:compileDebugRenderscript NO-SOURCE
+> Task :expo-image-picker:generateDebugResValues UP-TO-DATE
+> Task :expo-image-picker:generateDebugResources UP-TO-DATE
+> Task :expo-image-picker:packageDebugResources UP-TO-DATE
+> Task :expo-keep-awake:compileDebugRenderscript NO-SOURCE
+> Task :expo-keep-awake:generateDebugResValues UP-TO-DATE
+> Task :expo-keep-awake:generateDebugResources UP-TO-DATE
+> Task :expo-keep-awake:packageDebugResources UP-TO-DATE
+> Task :expo-modules-core:compileDebugRenderscript NO-SOURCE
+> Task :expo-modules-core:generateDebugResValues UP-TO-DATE
+> Task :expo-modules-core:generateDebugResources UP-TO-DATE
+> Task :expo-modules-core:packageDebugResources UP-TO-DATE
+> Task :expo-splash-screen:compileDebugRenderscript NO-SOURCE
+> Task :expo-splash-screen:generateDebugResValues UP-TO-DATE
+> Task :expo-splash-screen:generateDebugResources UP-TO-DATE
+> Task :expo-splash-screen:packageDebugResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileDebugRenderscript NO-SOURCE
+> Task :react-native-async-storage_async-storage:generateDebugResValues UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateDebugResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:packageDebugResources UP-TO-DATE
+> Task :react-native-community_datetimepicker:compileDebugRenderscript NO-SOURCE
+> Task :react-native-community_datetimepicker:generateDebugResValues UP-TO-DATE
+> Task :react-native-community_datetimepicker:generateDebugResources UP-TO-DATE
+> Task :react-native-community_datetimepicker:packageDebugResources UP-TO-DATE
+> Task :react-native-date-picker:compileDebugRenderscript NO-SOURCE
+> Task :react-native-date-picker:generateDebugResValues UP-TO-DATE
+> Task :react-native-date-picker:generateDebugResources UP-TO-DATE
+> Task :react-native-date-picker:packageDebugResources UP-TO-DATE
+> Task :react-native-gesture-handler:compileDebugRenderscript NO-SOURCE
+> Task :react-native-gesture-handler:generateDebugResValues UP-TO-DATE
+> Task :react-native-gesture-handler:generateDebugResources UP-TO-DATE
+> Task :react-native-gesture-handler:packageDebugResources UP-TO-DATE
+> Task :react-native-picker_picker:compileDebugRenderscript NO-SOURCE
+> Task :react-native-picker_picker:generateDebugResValues UP-TO-DATE
+> Task :react-native-picker_picker:generateDebugResources UP-TO-DATE
+> Task :react-native-picker_picker:packageDebugResources UP-TO-DATE
+> Task :react-native-safe-area-context:compileDebugRenderscript NO-SOURCE
+> Task :react-native-safe-area-context:generateDebugResValues UP-TO-DATE
+> Task :react-native-safe-area-context:generateDebugResources UP-TO-DATE
+> Task :react-native-safe-area-context:packageDebugResources UP-TO-DATE
+> Task :react-native-screens:compileDebugRenderscript NO-SOURCE
+> Task :react-native-screens:generateDebugResValues UP-TO-DATE
+> Task :react-native-screens:generateDebugResources UP-TO-DATE
+> Task :react-native-screens:packageDebugResources UP-TO-DATE
+> Task :react-native-sqlite-storage:compileDebugRenderscript NO-SOURCE
+> Task :react-native-sqlite-storage:generateDebugResValues UP-TO-DATE
+> Task :react-native-sqlite-storage:generateDebugResources UP-TO-DATE
+> Task :react-native-sqlite-storage:packageDebugResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :expo:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-application:extractDeepLinksDebug UP-TO-DATE
+> Task :expo:processDebugManifest UP-TO-DATE
+> Task :expo-application:processDebugManifest UP-TO-DATE
+> Task :expo-constants:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-constants:processDebugManifest UP-TO-DATE
+> Task :expo-file-system:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-file-system:processDebugManifest UP-TO-DATE
+> Task :expo-font:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-font:processDebugManifest UP-TO-DATE
+> Task :expo-image-loader:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-image-loader:processDebugManifest UP-TO-DATE
+> Task :expo-image-picker:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-image-picker:processDebugManifest UP-TO-DATE
+> Task :expo-keep-awake:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-keep-awake:processDebugManifest UP-TO-DATE
+> Task :expo-modules-core:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-modules-core:processDebugManifest UP-TO-DATE
+> Task :expo-splash-screen:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-splash-screen:processDebugManifest UP-TO-DATE
+> Task :react-native-async-storage_async-storage:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-async-storage_async-storage:processDebugManifest UP-TO-DATE
+> Task :react-native-community_datetimepicker:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-community_datetimepicker:processDebugManifest UP-TO-DATE
+> Task :react-native-date-picker:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-date-picker:processDebugManifest UP-TO-DATE
+> Task :react-native-gesture-handler:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-gesture-handler:processDebugManifest UP-TO-DATE
+> Task :react-native-picker_picker:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-picker_picker:processDebugManifest UP-TO-DATE
+> Task :react-native-safe-area-context:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-safe-area-context:processDebugManifest UP-TO-DATE
+> Task :react-native-screens:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-screens:processDebugManifest UP-TO-DATE
+> Task :react-native-sqlite-storage:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-sqlite-storage:processDebugManifest UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :expo:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-application:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-constants:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-file-system:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-font:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-image-loader:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-image-picker:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-keep-awake:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-modules-core:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-splash-screen:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-async-storage_async-storage:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-community_datetimepicker:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-date-picker:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-gesture-handler:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-picker_picker:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-safe-area-context:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-screens:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-sqlite-storage:writeDebugAarMetadata UP-TO-DATE
+> Task :expo:compileDebugLibraryResources UP-TO-DATE
+> Task :expo:parseDebugLocalResources UP-TO-DATE
+> Task :expo-application:parseDebugLocalResources
+> Task :expo-modules-core:parseDebugLocalResources
+> Task :app:checkDebugAarMetadata FAILED
+> Task :expo-constants:parseDebugLocalResources
+> Task :app:mergeDebugResources
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+See https://docs.gradle.org/7.5.1/userguide/command_line_interface.html#sec:command_line_warnings
+113 actionable tasks: 8 executed, 105 up-to-date

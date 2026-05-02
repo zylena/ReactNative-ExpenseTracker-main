@@ -1,15 +1,20 @@
-import { View } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons';
-import { Provider } from 'react-redux';
+import { View, Alert } from "react-native";
+import { useEffect } from "react";
+import {
+  NavigationContainer,
+  getFocusedRouteNameFromRoute,
+} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { StatusBar } from "expo-status-bar";
+import { Ionicons } from "@expo/vector-icons";
+import { Provider } from "react-redux";
 
-import store from './store';
-import BannerSlider from './components/UI/BannerSlider';
-
+import { socket, USER_ID } from "./socket";
+import store from "./store";
+import BannerSlider from "./components/UI/BannerSlider";
+import ManageExpenseTypesScreen from './screens/ManageExpenseTypesScreen';
 import {
   AllExpensesScreen,
   ManageExpenseScreen,
@@ -18,35 +23,47 @@ import {
   HelpCenterScreen,
   MyAccountScreen,
   CurrencySettingScreen,
-} from './screens';
+  NotificationScreen,
+  SetBudgetScreen,
+} from "./screens";
 
-import { GlobalStyles } from './constants/styles';
+import { GlobalStyles } from "./constants/styles";
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
+function SocketListener() {
+  useEffect(() => {
+    socket.emit("join", USER_ID);
 
-// BOTTOM TABS (NO HEADER)
+    socket.on("budgetExceeded", (notification) => {
+      Alert.alert(notification.title, notification.message);
+    });
+
+    return () => {
+      socket.off("budgetExceeded");
+    };
+  }, []);
+
+  return null;
+}
+
 function BottomTabs() {
   return (
     <BottomTab.Navigator
       screenOptions={{
-        headerShown: false, // ✅ IMPORTANT (Drawer handles header)
-
+        headerShown: false,
         tabBarStyle: {
           backgroundColor: GlobalStyles.colors.tobago,
           height: 60,
           paddingTop: 8,
           paddingBottom: 10,
         },
-
         tabBarActiveTintColor: "#B9B2FF",
         tabBarInactiveTintColor: "#ffffff",
       }}
-      sceneContainerStyle={{
-        backgroundColor: GlobalStyles.colors.vanillaIce,
-      }}
+      sceneContainerStyle={{ backgroundColor: "#ffffff" }}
     >
       <BottomTab.Screen
         name="RecentExpenses"
@@ -96,32 +113,28 @@ function BottomTabs() {
   );
 }
 
-
-// WRAPPER (Tabs + Banner)
 function HomeWithBanner() {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
         <BottomTabs />
       </View>
-
-      {/* Banner outside navigator */}
       <BannerSlider />
     </View>
   );
 }
 
+function EmptyDrawerScreen() {
+  return null;
+}
 
-// DRAWER (MAIN HEADER)
 function DrawerNavigator() {
   return (
     <Drawer.Navigator
-      screenOptions={({ navigation, route }) => ({
+      screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: GlobalStyles.colors.tobago },
         headerTintColor: "white",
         headerTitleAlign: "center",
-
-        // ✅ MENU BUTTON (works everywhere)
         headerLeft: () => (
           <Ionicons
             name="menu"
@@ -131,56 +144,146 @@ function DrawerNavigator() {
             onPress={() => navigation.toggleDrawer()}
           />
         ),
-
         drawerStyle: {
-          backgroundColor: GlobalStyles.colors.vanillaIce,
+          backgroundColor: "#ffffff",
         },
-
         drawerActiveTintColor: "#B9B2FF",
         drawerInactiveTintColor: "#333",
       })}
     >
-      {/* MAIN ENTRY */}
       <Drawer.Screen
-        name="RecentExpenses"
+        name="MainTabs"
         component={HomeWithBanner}
+        options={({ route }) => {
+          const routeName =
+            getFocusedRouteNameFromRoute(route) ?? "RecentExpenses";
+
+          const titleMap = {
+            RecentExpenses: "Recent Expenses",
+            AllExpenses: "All Expenses",
+            MyProfile: "Profile",
+          };
+
+          return {
+            title: titleMap[routeName] || "Expense Tracker",
+            drawerLabel: "Expenses",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="time-outline" size={size} color={color} />
+            ),
+          };
+        }}
+      />
+
+       <Drawer.Screen
+        name="DrawerManageExpenseTypes"
+        component={EmptyDrawerScreen}
+        listeners={({ navigation }) => ({
+          drawerItemPress: (event) => {
+            event.preventDefault();
+            navigation.closeDrawer();
+            navigation.navigate("ManageExpenseTypes");
+          },
+        })}
         options={{
-          title: "Recent Expenses",
+          drawerLabel: "Manage Expense Types",
+          title: "Manage Expense Types",
           drawerIcon: ({ color, size }) => (
-            <Ionicons name="time-outline" size={size} color={color} />
+            <Ionicons name="list-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      
+      <Drawer.Screen
+        name="DrawerMyAccount"
+        component={EmptyDrawerScreen}
+        listeners={({ navigation }) => ({
+          drawerItemPress: (event) => {
+            event.preventDefault();
+            navigation.closeDrawer();
+            navigation.navigate("MyAccount");
+          },
+        })}
+        options={{
+          drawerLabel: "My Account",
+          title: "My Account",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="person-outline" size={size} color={color} />
           ),
         }}
       />
 
       <Drawer.Screen
-        name="HelpCenter"
-        component={HelpCenterScreen}
+        name="DrawerCurrencySetting"
+        component={EmptyDrawerScreen}
+        listeners={({ navigation }) => ({
+          drawerItemPress: (event) => {
+            event.preventDefault();
+            navigation.closeDrawer();
+            navigation.navigate("CurrencySetting");
+          },
+        })}
         options={{
+          drawerLabel: "Currency Setting",
+          title: "Currency Setting",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="cash-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="DrawerSetBudget"
+        component={EmptyDrawerScreen}
+        listeners={({ navigation }) => ({
+          drawerItemPress: (event) => {
+            event.preventDefault();
+            navigation.closeDrawer();
+            navigation.navigate("SetBudget");
+          },
+        })}
+        options={{
+          drawerLabel: "Set Budget",
+          title: "Set Budget",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="wallet-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="DrawerNotifications"
+        component={EmptyDrawerScreen}
+        listeners={({ navigation }) => ({
+          drawerItemPress: (event) => {
+            event.preventDefault();
+            navigation.closeDrawer();
+            navigation.navigate("Notifications");
+          },
+        })}
+        options={{
+          drawerLabel: "Notifications",
+          title: "Notifications",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="notifications-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="DrawerHelpCenter"
+        component={EmptyDrawerScreen}
+        listeners={({ navigation }) => ({
+          drawerItemPress: (event) => {
+            event.preventDefault();
+            navigation.closeDrawer();
+            navigation.navigate("HelpCenter");
+          },
+        })}
+        options={{
+          drawerLabel: "Help Center",
           title: "Help Center",
           drawerIcon: ({ color, size }) => (
             <Ionicons name="help-circle-outline" size={size} color={color} />
-          ),
-        }}
-      />
-
-      <Drawer.Screen
-        name="MyAccount"
-        component={MyAccountScreen}
-        options={{
-          title: "My Account",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="settings-outline" size={size} color={color} />
-          ),
-        }}
-      />
-
-      <Drawer.Screen
-        name="CurrencySetting"
-        component={CurrencySettingScreen}
-        options={{
-          title: "Currency Setting",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="logo-usd" size={size} color={color} />
           ),
         }}
       />
@@ -188,19 +291,18 @@ function DrawerNavigator() {
   );
 }
 
-
-// MAIN APP
 export default function App() {
   return (
     <>
       <StatusBar style="light" />
       <Provider store={store}>
+        <SocketListener />
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
               headerStyle: { backgroundColor: GlobalStyles.colors.tobago },
-              headerTintColor: 'white',
-              headerTitleAlign: 'center',
+              headerTintColor: "white",
+              headerTitleAlign: "center",
               headerShadowVisible: false,
               contentStyle: { backgroundColor: GlobalStyles.colors.vanillaIce },
             }}
@@ -215,11 +317,45 @@ export default function App() {
               name="ManageExpenseScreen"
               component={ManageExpenseScreen}
               options={{
-                presentation: 'modal',
-                animation: 'slide_from_bottom',
+                presentation: "modal",
+                animation: "slide_from_bottom",
                 title: "Manage Expense",
               }}
             />
+
+            <Stack.Screen
+              name="MyAccount"
+              component={MyAccountScreen}
+              options={{ title: "My Account" }}
+            />
+
+            <Stack.Screen
+              name="CurrencySetting"
+              component={CurrencySettingScreen}
+              options={{ title: "Currency Setting" }}
+            />
+
+            <Stack.Screen
+              name="SetBudget"
+              component={SetBudgetScreen}
+              options={{ title: "Set Budget" }}
+            />
+
+            <Stack.Screen
+              name="Notifications"
+              component={NotificationScreen}
+              options={{ title: "Notifications" }}
+            />
+
+            <Stack.Screen
+              name="HelpCenter"
+              component={HelpCenterScreen}
+              options={{ title: "Help Center" }}
+            />
+            <Stack.Screen
+            name="ManageExpenseTypes"
+            component={ManageExpenseTypesScreen}
+          />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

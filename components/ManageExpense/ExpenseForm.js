@@ -1,12 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { Text, View, Alert, Pressable } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { addToExpenses, updateInExpenses } from '../../store/expenses-slice';
-import { useState } from "react";
-import { Text, View, Alert, Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
+
 import {
   addToExpenses,
   updateInExpenses,
@@ -19,6 +15,12 @@ import {
   deleteExpense,
 } from "../../utils/http";
 
+import {
+  getDBConnection,
+  getExpenseTypes,
+  createExpenseTypeTable,
+} from '../../utils/db-service';
+
 import ActionButtons from "./ActionButtons";
 import Input from "./Input";
 import DateInput from "./DateInput";
@@ -29,7 +31,7 @@ export default function ExpenseForm({ id, defaultValues }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
-  const [types, setTypes] = useState([]); // ✅ SQLite types
+  const [types, setTypes] = useState([]);
 
   const [inputValues, setInputValues] = useState({
     title: defaultValues ? defaultValues.title : "",
@@ -41,20 +43,23 @@ export default function ExpenseForm({ id, defaultValues }) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  // ✅ Load types from SQLite
-  useEffect(() => {
-    async function loadTypes() {
-      try {
-        const db = await getDBConnection();
-        const data = await getExpenseTypes(db);
-        setTypes(data);
-      } catch (err) {
-        console.log('Error loading types:', err);
+  // LOAD TYPES EVERY TIME SCREEN FOCUSED
+  useFocusEffect(
+    useCallback(() => {
+      async function loadTypes() {
+        try {
+          const db = getDBConnection();
+          await createExpenseTypeTable(db);
+          const data = await getExpenseTypes(db);
+          setTypes(data);
+        } catch (err) {
+          console.log("Error loading types:", err);
+        }
       }
-    }
 
-    loadTypes();
-  }, []);
+      loadTypes();
+    }, [])
+  );
 
   function inputValuesHandler(inputIdentifier, value) {
     setInputValues((prev) => ({
@@ -112,31 +117,32 @@ export default function ExpenseForm({ id, defaultValues }) {
   }
 
   function deleteHandler() {
-    Alert.alert("Delete Expense", "Are you sure you want to delete this expense?", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Delete",
-        style: "destructive",
-        onPress: async () => {
-          setIsLoading(true);
-          setError(null);
+    Alert.alert(
+      "Delete Expense",
+      "Are you sure you want to delete this expense?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            setIsLoading(true);
+            setError(null);
 
-          try {
-            await deleteExpense(id);
-            dispatch(removeFromExpenses({id}));
-            navigation.goBack();
-          } catch (err) {
-            console.log(err);
-            setError("Couldn't delete the expense");
-          }
+            try {
+              await deleteExpense(id);
+              dispatch(removeFromExpenses({ id }));
+              navigation.goBack();
+            } catch (err) {
+              console.log(err);
+              setError("Couldn't delete the expense");
+            }
 
-          setIsLoading(false);
+            setIsLoading(false);
+          },
         },
-      },
-    ]);
+      ]
+    );
   }
 
   if (error && !isLoading) {
@@ -150,6 +156,8 @@ export default function ExpenseForm({ id, defaultValues }) {
   return (
     <View className="flex-1 p-5">
       <View className="my-4 p-5 bg-gray-600 rounded-lg">
+        
+        {/* TITLE */}
         <Input
           label="Title"
           textInputConfig={{
@@ -158,6 +166,7 @@ export default function ExpenseForm({ id, defaultValues }) {
           }}
         />
 
+        {/* PRICE */}
         <Input
           label="Price"
           textInputConfig={{
@@ -167,33 +176,53 @@ export default function ExpenseForm({ id, defaultValues }) {
           }}
         />
 
+        {/* TYPE */}
         <View className="my-3">
           <Text className="text-white font-semibold mb-2">Type</Text>
 
+          {/* Dynamic Types */}
           <View className="flex-row flex-wrap">
             {types.map((t) => (
               <Pressable
                 key={t.id}
-                onPress={() => inputValuesHandler('type', t.name)}
+                onPress={() => inputValuesHandler("type", t.name)}
                 style={{
                   padding: 8,
                   margin: 4,
                   borderRadius: 10,
-                  backgroundColor: inputValues.type === t ? "#7d71ff" : "#ccc",
+                  backgroundColor:
+                    inputValues.type === t.name ? "#7d71ff" : "#ccc",
                 }}
               >
-                <Text style={{ color: 'white' }}>{t.name}</Text>
+                <Text style={{ color: "white" }}>{t.name}</Text>
               </Pressable>
             ))}
           </View>
+
+          {/* Manage Button */}
+          <Pressable
+            onPress={() => navigation.navigate("ManageExpenseTypes")}
+            style={{
+              backgroundColor: "#444",
+              padding: 10,
+              borderRadius: 6,
+              marginTop: 10,
+            }}
+          >
+            <Text style={{ color: "white", textAlign: "center" }}>
+              Manage Types
+            </Text>
+          </Pressable>
         </View>
 
+        {/* DATE */}
         <DateInput
           onChange={inputValuesHandler.bind(this, "date")}
           date={inputValues.date}
         />
       </View>
 
+      {/* BUTTONS */}
       <ActionButtons
         id={id}
         onSubmit={submitHandler}
