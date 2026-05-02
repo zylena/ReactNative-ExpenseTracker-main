@@ -6,6 +6,7 @@ import {
     Image,
     TouchableOpacity,
     SafeAreaView,
+    ScrollView,
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -41,9 +42,11 @@ export default function MyProfileScreen({ navigation }) {
 
     return (
         <SafeAreaView style={styles.screen}>
-            <View style={styles.placeholder} />
-
-            <View style={styles.container}>
+            <ScrollView
+                style={styles.scrollView}
+                contentContainerStyle={styles.scrollContent}
+                showsVerticalScrollIndicator={false}
+            >
                 <View style={styles.avatarSection}>
                     <View style={styles.avatarOuter}>
                         {image ? (
@@ -64,26 +67,54 @@ export default function MyProfileScreen({ navigation }) {
                         <View style={styles.menuIconCircle}>
                             <Ionicons name="person" size={14} color="#7d71ff" />
                         </View>
-                        <View>
+
+                        <View style={styles.menuTextBox}>
                             <Text style={styles.menuText}>My Account</Text>
                             <Text style={styles.menuSubText}>Edit profile information</Text>
                         </View>
                     </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={styles.menuCard}
-                            onPress={() => navigation.navigate('CurrencySetting')}
-                            >
-                            <View style={styles.menuIconCircle}>
-                                <Ionicons name="cash-outline" size={14} color="#7d71ff" />
-                            </View>
+                    <TouchableOpacity
+                        style={styles.menuCard}
+                        onPress={() => navigation.navigate('CurrencySetting')}
+                    >
+                        <View style={styles.menuIconCircle}>
+                            <Ionicons name="cash-outline" size={14} color="#7d71ff" />
+                        </View>
 
-                            <View>
-                                <Text style={styles.menuText}>Currency Setting</Text>
-                                <Text style={styles.menuSubText}>Change expense currency symbol</Text>
-                            </View>
-                            </TouchableOpacity>
+                        <View style={styles.menuTextBox}>
+                            <Text style={styles.menuText}>Currency Setting</Text>
+                            <Text style={styles.menuSubText}>Change expense currency symbol</Text>
+                        </View>
+                    </TouchableOpacity>
 
+                    <TouchableOpacity
+                        style={styles.menuCard}
+                        onPress={() => navigation.navigate('SetBudget')}
+                    >
+                        <View style={styles.menuIconCircle}>
+                            <Ionicons name="wallet-outline" size={14} color="#7d71ff" />
+                        </View>
+
+                        <View style={styles.menuTextBox}>
+                            <Text style={styles.menuText}>Set Budget</Text>
+                            <Text style={styles.menuSubText}>Set your monthly spending limit</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.menuCard}
+                        onPress={() => navigation.navigate('Notifications')}
+                    >
+                        <View style={styles.menuIconCircle}>
+                            <Ionicons name="notifications-outline" size={14} color="#7d71ff" />
+                        </View>
+
+                        <View style={styles.menuTextBox}>
+                            <Text style={styles.menuText}>Notifications</Text>
+                            <Text style={styles.menuSubText}>View budget alert notifications</Text>
+                        </View>
+                    </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.menuCard}
@@ -92,17 +123,14 @@ export default function MyProfileScreen({ navigation }) {
                         <View style={styles.menuIconCircle}>
                             <Ionicons name="help-circle" size={14} color="#7d71ff" />
                         </View>
-                        <View>
+
+                        <View style={styles.menuTextBox}>
                             <Text style={styles.menuText}>Help Center</Text>
                             <Text style={styles.menuSubText}>Get help and support</Text>
                         </View>
                     </TouchableOpacity>
-
-
-
-
                 </View>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -112,10 +140,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#ffffff',
     },
-    container: {
+    scrollView: {
         flex: 1,
+        backgroundColor: '#ffffff',
+    },
+    scrollContent: {
         paddingHorizontal: 24,
-        paddingTop: 18,
+        paddingTop: 70,
+        paddingBottom: 120,
         backgroundColor: '#ffffff',
     },
     avatarSection: {
@@ -137,10 +169,6 @@ const styles = StyleSheet.create({
         width: 106,
         height: 106,
         borderRadius: 53,
-    },
-    placeholder: {
-        width: 42,
-        height: 42,
     },
     name: {
         textAlign: 'center',
@@ -168,6 +196,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 14,
+    },
+    menuTextBox: {
+        flex: 1,
     },
     menuText: {
         fontSize: 15,
