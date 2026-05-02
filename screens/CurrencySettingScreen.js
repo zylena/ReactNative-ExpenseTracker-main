@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   Pressable,
   Alert,
-  TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -74,7 +74,11 @@ export default function CurrencySettingScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.container}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.headerCard}>
           <View style={styles.headerIcon}>
             <Ionicons name="cash-outline" size={30} color="#7d71ff" />
@@ -116,7 +120,7 @@ export default function CurrencySettingScreen({ navigation }) {
                     </Text>
                   </View>
 
-                  <View>
+                  <View style={styles.currencyTextBox}>
                     <Text
                       style={[
                         styles.currencyName,
@@ -157,7 +161,7 @@ export default function CurrencySettingScreen({ navigation }) {
         >
           <Text style={styles.saveButtonText}>Save Currency</Text>
         </Pressable>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -167,11 +171,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
   },
-  container: {
+  scrollView: {
     flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  container: {
     paddingHorizontal: 18,
     paddingTop: 18,
-    paddingBottom: 22,
+    paddingBottom: 36,
     backgroundColor: '#ffffff',
   },
   headerCard: {
@@ -206,7 +213,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   list: {
-    flex: 1,
+    marginBottom: 10,
   },
   currencyCard: {
     minHeight: 68,
@@ -228,6 +235,9 @@ const styles = StyleSheet.create({
   currencyLeft: {
     flexDirection: 'row',
     alignItems: 'center',
+    flex: 1,
+  },
+  currencyTextBox: {
     flex: 1,
   },
   symbolCircle: {
