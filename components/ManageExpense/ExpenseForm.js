@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Text, View, Alert, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -8,6 +8,12 @@ import {
   storeExpenseToFirebase,
   updateExpenseInFirebase,
 } from '../../utils/http';
+
+import {
+  getDBConnection,
+  getExpenseTypes,
+} from '../../utils/db-service';
+
 import ActionButtons from './ActionButtons';
 import Input from './Input';
 import DateInput from './DateInput';
@@ -17,16 +23,33 @@ import Error from '../UI/Error';
 export default function ExpenseForm({ id, defaultValues }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
+
+  const [types, setTypes] = useState([]); // ✅ SQLite types
+
   const [inputValues, setInputValues] = useState({
     title: defaultValues ? defaultValues.title : '',
     price: defaultValues ? defaultValues.price.toString() : '',
     type: defaultValues ? defaultValues.type : 'Food',
     date: defaultValues ? new Date(defaultValues.date) : new Date(),
-    
   });
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  // ✅ Load types from SQLite
+  useEffect(() => {
+    async function loadTypes() {
+      try {
+        const db = await getDBConnection();
+        const data = await getExpenseTypes(db);
+        setTypes(data);
+      } catch (err) {
+        console.log('Error loading types:', err);
+      }
+    }
+
+    loadTypes();
+  }, []);
 
   function inputValuesHandler(inputIdentifier, value) {
     setInputValues((prev) => ({
@@ -36,7 +59,6 @@ export default function ExpenseForm({ id, defaultValues }) {
   }
 
   async function submitHandler() {
-    // Check validity
     if (inputValues.title.trim() === '' || inputValues.price.trim() === '') {
       Alert.alert('Inputs Missing', 'Please fill all fields', [
         { text: 'ok', style: 'destructive' },
@@ -61,7 +83,6 @@ export default function ExpenseForm({ id, defaultValues }) {
     setIsLoading(true);
 
     if (id) {
-      // Update the expense
       try {
         await updateExpenseInFirebase(id, expense);
         dispatch(updateInExpenses({ ...expense, id }));
@@ -70,7 +91,6 @@ export default function ExpenseForm({ id, defaultValues }) {
         setError("Couldn't update the expense");
       }
     } else {
-      // Add the expense
       try {
         const expenseId = await storeExpenseToFirebase(expense);
         dispatch(addToExpenses({ ...expense, id: expenseId }));
@@ -78,7 +98,6 @@ export default function ExpenseForm({ id, defaultValues }) {
       } catch (err) {
         setError("Couldn't add the expense");
       }
-      // Add the expense to global store
     }
 
     setIsLoading(false);
@@ -96,6 +115,7 @@ export default function ExpenseForm({ id, defaultValues }) {
     <View className="flex-1 p-5">
       {/* Input Card */}
       <View className="my-4 p-5 bg-gray-600 rounded-lg">
+
         {/* Title */}
         <Input
           label="Title"
@@ -114,26 +134,30 @@ export default function ExpenseForm({ id, defaultValues }) {
             keyboardType: 'number-pad',
           }}
         />
-        <View className="my-3">
-      <Text className="text-white font-semibold mb-2">Type</Text>
 
-          <View className="flex-row justify-between">
-            {['Food', 'Transport', 'Shopping', 'Bills'].map((t) => (
+        {/* Type (Dynamic from SQLite) */}
+        <View className="my-3">
+          <Text className="text-white font-semibold mb-2">Type</Text>
+
+          <View className="flex-row flex-wrap">
+            {types.map((t) => (
               <Pressable
-                key={t}
-                onPress={() => inputValuesHandler('type', t)}
+                key={t.id}
+                onPress={() => inputValuesHandler('type', t.name)}
                 style={{
                   padding: 8,
+                  margin: 4,
                   borderRadius: 10,
                   backgroundColor:
-                    inputValues.type === t ? '#7d71ff' : '#ccc',
+                    inputValues.type === t.name ? '#7d71ff' : '#ccc',
                 }}
               >
-                <Text style={{ color: 'white' }}>{t}</Text>
+                <Text style={{ color: 'white' }}>{t.name}</Text>
               </Pressable>
             ))}
           </View>
         </View>
+
         {/* Date Picker */}
         <DateInput
           onChange={inputValuesHandler.bind(this, 'date')}

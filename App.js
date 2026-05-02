@@ -27,9 +27,7 @@ const BottomTab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
 
-// =======================
 // BOTTOM TABS (NO HEADER)
-// =======================
 function BottomTabs() {
   return (
     <BottomTab.Navigator
@@ -99,9 +97,7 @@ function BottomTabs() {
 }
 
 
-// =======================
 // WRAPPER (Tabs + Banner)
-// =======================
 function HomeWithBanner() {
   return (
     <View style={{ flex: 1 }}>
@@ -116,9 +112,7 @@ function HomeWithBanner() {
 }
 
 
-// =======================
 // DRAWER (MAIN HEADER)
-// =======================
 function DrawerNavigator() {
   return (
     <Drawer.Navigator
@@ -195,9 +189,7 @@ function DrawerNavigator() {
 }
 
 
-// =======================
 // MAIN APP
-// =======================
 export default function App() {
   return (
     <>
