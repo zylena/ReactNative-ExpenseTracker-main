@@ -16,15 +16,13 @@ export async function storeExpense(expenseData) {
 export async function fetchExpensesFromFirebase() {
   const response = await axios.get(`${API_URL}/expenses/${USER_ID}`);
 
-  const expenses = response.data.data.map((expense) => ({
+  return response.data.data.map((expense) => ({
     id: expense.id,
     title: expense.title,
     price: Number(expense.amount),
     date: expense.date,
     type: expense.type || "Food",
   }));
-
-  return expenses;
 }
 
 export async function updateExpense(id, expenseData) {

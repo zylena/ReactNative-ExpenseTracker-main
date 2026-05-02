@@ -2,9 +2,17 @@ import { useState } from "react";
 import { Text, View, Alert, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
-import { addToExpenses, updateInExpenses } from "../../store/expenses-slice";
+import {
+  addToExpenses,
+  updateInExpenses,
+  removeFromExpenses,
+} from "../../store/expenses-slice";
 
-import { storeExpense, updateExpense } from "../../utils/http";
+import {
+  storeExpense,
+  updateExpense,
+  deleteExpense,
+} from "../../utils/http";
 
 import ActionButtons from "./ActionButtons";
 import Input from "./Input";
@@ -63,6 +71,7 @@ export default function ExpenseForm({ id, defaultValues }) {
         dispatch(updateInExpenses({ ...expense, id }));
         navigation.goBack();
       } catch (err) {
+        console.log(err);
         setError("Couldn't update the expense");
       }
     } else {
@@ -71,11 +80,40 @@ export default function ExpenseForm({ id, defaultValues }) {
         dispatch(addToExpenses({ ...expense, id: expenseId }));
         navigation.goBack();
       } catch (err) {
+        console.log(err);
         setError("Couldn't add the expense");
       }
     }
 
     setIsLoading(false);
+  }
+
+  function deleteHandler() {
+    Alert.alert("Delete Expense", "Are you sure you want to delete this expense?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: async () => {
+          setIsLoading(true);
+          setError(null);
+
+          try {
+            await deleteExpense(id);
+            dispatch(removeFromExpenses({id}));
+            navigation.goBack();
+          } catch (err) {
+            console.log(err);
+            setError("Couldn't delete the expense");
+          }
+
+          setIsLoading(false);
+        },
+      },
+    ]);
   }
 
   if (error && !isLoading) {
@@ -132,7 +170,11 @@ export default function ExpenseForm({ id, defaultValues }) {
         />
       </View>
 
-      <ActionButtons id={id} onSubmit={submitHandler} />
+      <ActionButtons
+        id={id}
+        onSubmit={submitHandler}
+        onDelete={deleteHandler}
+      />
     </View>
   );
 }

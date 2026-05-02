@@ -32,13 +32,11 @@ const expensesSlice = createSlice({
       sortExpenses(state);
     },
 
-    removeFromExpenses: (state, action) => {
-      const index = state.expenses.findIndex(
-        (expense) => expense.id === action.payload.id
-      );
-
-      state.expenses.splice(index, 1);
-    },
+   removeFromExpenses: (state, action) => {
+  state.expenses = state.expenses.filter(
+    (expense) => expense.id !== action.payload.id
+  );
+},
   },
 });
 
