@@ -5,6 +5,9 @@ import MyProfileScreen from './MyProfileScreen';
 import HelpCenterScreen from './HelpCenterScreen';
 import MyAccountScreen from './MyAccountScreen';
 import CurrencySettingScreen from './CurrencySettingScreen';
+import NotificationScreen from './NotificationScreen';
+import SetBudgetScreen from './SetBudgetScreen';
+
 export { 
     AllExpensesScreen, 
     RecentExpensesScreen, 
@@ -13,4 +16,8 @@ export {
     HelpCenterScreen,
     MyAccountScreen,
     CurrencySettingScreen,
- };
+    NotificationScreen,
+    SetBudgetScreen,
+
+
+};

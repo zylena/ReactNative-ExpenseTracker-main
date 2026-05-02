@@ -1,37 +1,43 @@
-import axios from 'axios';
+import axios from "axios";
+import { API_URL, USER_ID } from "../socket";
 
-const BACKEND_URL = 'https://expensestracker-70e39-default-rtdb.asia-southeast1.firebasedatabase.app';
+export async function storeExpense(expenseData) {
+  const response = await axios.post(`${API_URL}/expenses`, {
+    userId: USER_ID,
+    title: expenseData.title,
+    amount: Number(expenseData.price),
+    date: expenseData.date,
+    type: expenseData.type,
+  });
 
-export async function storeExpenseToFirebase(expense) {
-  const response = await axios.post(BACKEND_URL + '/expenses.json', expense);
-
-  const id = response.data.name;
-
-  return id;
+  return response.data.data.id;
 }
 
 export async function fetchExpensesFromFirebase() {
-  const response = await axios.get(BACKEND_URL + '/expenses.json');
+  const response = await axios.get(`${API_URL}/expenses/${USER_ID}`);
 
-  const expenses = [];
-  for (const key in response.data) {
-    const expense = {
-      id: key,
-      ...response.data[key],
-    };
-
-    expenses.push(expense);
-  }
+  const expenses = response.data.data.map((expense) => ({
+    id: expense.id,
+    title: expense.title,
+    price: Number(expense.amount),
+    date: expense.date,
+    type: expense.type || "Food",
+  }));
 
   return expenses;
 }
 
-export async function updateExpenseInFirebase(id, expense) {
-  await axios.put(BACKEND_URL + `/expenses/${id}.json`, expense);
+export async function updateExpense(id, expenseData) {
+  await axios.put(`${API_URL}/expenses/${USER_ID}/${id}`, {
+    title: expenseData.title,
+    amount: Number(expenseData.price),
+    date: expenseData.date,
+    type: expenseData.type,
+  });
 }
 
-export async function deleteExpenseFromFirebase(id) {
-  await axios.delete(BACKEND_URL + `/expenses/${id}.json`);
+export async function deleteExpense(id) {
+  await axios.delete(`${API_URL}/expenses/${USER_ID}/${id}`);
 }
 
 export async function fetchFoodPicFromAPIHub() {
@@ -47,7 +53,6 @@ export async function fetchFoodPicFromAPIHub() {
     return data.image;
   } catch (error) {
     console.log("API error:", error);
-
     return null;
   }
 }

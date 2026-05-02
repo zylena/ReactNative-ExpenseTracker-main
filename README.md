@@ -41,6 +41,8 @@ npm install
 
 ```
 npx expo start
+or
+npx expo start --lan -c
 ```
 
 

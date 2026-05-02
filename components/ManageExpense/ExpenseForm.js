@@ -3,22 +3,19 @@ import { Text, View, Alert, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { addToExpenses, updateInExpenses } from '../../store/expenses-slice';
+import { useState } from "react";
+import { Text, View, Alert, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { addToExpenses, updateInExpenses } from "../../store/expenses-slice";
 
-import {
-  storeExpenseToFirebase,
-  updateExpenseInFirebase,
-} from '../../utils/http';
+import { storeExpense, updateExpense } from "../../utils/http";
 
-import {
-  getDBConnection,
-  getExpenseTypes,
-} from '../../utils/db-service';
-
-import ActionButtons from './ActionButtons';
-import Input from './Input';
-import DateInput from './DateInput';
-import Loading from '../UI/Loading';
-import Error from '../UI/Error';
+import ActionButtons from "./ActionButtons";
+import Input from "./Input";
+import DateInput from "./DateInput";
+import Loading from "../UI/Loading";
+import Error from "../UI/Error";
 
 export default function ExpenseForm({ id, defaultValues }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,9 +24,9 @@ export default function ExpenseForm({ id, defaultValues }) {
   const [types, setTypes] = useState([]); // ✅ SQLite types
 
   const [inputValues, setInputValues] = useState({
-    title: defaultValues ? defaultValues.title : '',
-    price: defaultValues ? defaultValues.price.toString() : '',
-    type: defaultValues ? defaultValues.type : 'Food',
+    title: defaultValues ? defaultValues.title : "",
+    price: defaultValues ? defaultValues.price.toString() : "",
+    type: defaultValues ? defaultValues.type : "Food",
     date: defaultValues ? new Date(defaultValues.date) : new Date(),
   });
 
@@ -59,16 +56,16 @@ export default function ExpenseForm({ id, defaultValues }) {
   }
 
   async function submitHandler() {
-    if (inputValues.title.trim() === '' || inputValues.price.trim() === '') {
-      Alert.alert('Inputs Missing', 'Please fill all fields', [
-        { text: 'ok', style: 'destructive' },
+    if (inputValues.title.trim() === "" || inputValues.price.trim() === "") {
+      Alert.alert("Inputs Missing", "Please fill all fields", [
+        { text: "OK", style: "destructive" },
       ]);
       return;
     }
 
     if (isNaN(+inputValues.price) || +inputValues.price <= 0) {
-      Alert.alert('Invalid Price', 'Price should be valid number', [
-        { text: 'ok', style: 'destructive' },
+      Alert.alert("Invalid Price", "Price should be valid number", [
+        { text: "OK", style: "destructive" },
       ]);
       return;
     }
@@ -81,10 +78,11 @@ export default function ExpenseForm({ id, defaultValues }) {
     };
 
     setIsLoading(true);
+    setError(null);
 
     if (id) {
       try {
-        await updateExpenseInFirebase(id, expense);
+        await updateExpense(id, expense);
         dispatch(updateInExpenses({ ...expense, id }));
         navigation.goBack();
       } catch (err) {
@@ -92,7 +90,7 @@ export default function ExpenseForm({ id, defaultValues }) {
       }
     } else {
       try {
-        const expenseId = await storeExpenseToFirebase(expense);
+        const expenseId = await storeExpense(expense);
         dispatch(addToExpenses({ ...expense, id: expenseId }));
         navigation.goBack();
       } catch (err) {
@@ -113,29 +111,24 @@ export default function ExpenseForm({ id, defaultValues }) {
 
   return (
     <View className="flex-1 p-5">
-      {/* Input Card */}
       <View className="my-4 p-5 bg-gray-600 rounded-lg">
-
-        {/* Title */}
         <Input
           label="Title"
           textInputConfig={{
             value: inputValues.title,
-            onChangeText: inputValuesHandler.bind(this, 'title'),
+            onChangeText: inputValuesHandler.bind(this, "title"),
           }}
         />
 
-        {/* Price */}
         <Input
           label="Price"
           textInputConfig={{
             value: inputValues.price,
-            onChangeText: inputValuesHandler.bind(this, 'price'),
-            keyboardType: 'number-pad',
+            onChangeText: inputValuesHandler.bind(this, "price"),
+            keyboardType: "number-pad",
           }}
         />
 
-        {/* Type (Dynamic from SQLite) */}
         <View className="my-3">
           <Text className="text-white font-semibold mb-2">Type</Text>
 
@@ -148,8 +141,7 @@ export default function ExpenseForm({ id, defaultValues }) {
                   padding: 8,
                   margin: 4,
                   borderRadius: 10,
-                  backgroundColor:
-                    inputValues.type === t.name ? '#7d71ff' : '#ccc',
+                  backgroundColor: inputValues.type === t ? "#7d71ff" : "#ccc",
                 }}
               >
                 <Text style={{ color: 'white' }}>{t.name}</Text>
@@ -158,14 +150,12 @@ export default function ExpenseForm({ id, defaultValues }) {
           </View>
         </View>
 
-        {/* Date Picker */}
         <DateInput
-          onChange={inputValuesHandler.bind(this, 'date')}
+          onChange={inputValuesHandler.bind(this, "date")}
           date={inputValues.date}
         />
       </View>
 
-      {/* Buttons */}
       <ActionButtons id={id} onSubmit={submitHandler} />
     </View>
   );
